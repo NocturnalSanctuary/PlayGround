@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#090a10" />
+  <title>Veil of Prague — Nightfall Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-root">
+    <canvas id="world" aria-label="3D vampire survival game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Veil of Prague home"><span class="brand-mark">V</span><span class="brand-copy"><b>VEIL OF PRAGUE</b><small>NIGHTFALL PROTOCOL</small></span></a>
+      <div class="top-right"><span class="server-pill"><i></i> PRAGUE · EU WEST</span><button class="icon-btn" id="sound-toggle" aria-label="Toggle sound">♫</button><button class="icon-btn" id="settings-open" aria-label="Settings">⚙</button></div>
+    </header>
+
+    <section id="lobby" class="lobby screen">
+      <div class="lobby-copy">
+        <p class="eyebrow"><span></span> THE HUNT BEGINS AT MIDNIGHT</p>
+        <h1>THE CITY<br>IS <em>YOURS.</em></h1>
+        <p class="intro">The Masquerade is broken. Prague belongs to the Kindred tonight.<br>Hunt, feed, and survive until dawn.</p>
+        <div class="clan-row">
+          <div class="clan-seal">✦</div><div><small>YOUR BLOODLINE</small><strong>THE BRUJAH <span>↗</span></strong></div><div class="clan-rule"></div><button id="clan-next" class="clan-switch" title="Change clan">⌄</button>
+        </div>
+        <div class="mode-label">SELECT YOUR HUNT <span>01 / 03</span></div>
+        <div class="mode-selector">
+          <button class="mode-card active" data-mode="solo"><span class="mode-icon">♙</span><span><b>SOLO</b><small>Every vampire for themselves</small></span><i>✓</i></button>
+          <button class="mode-card" data-mode="duo"><span class="mode-icon">♟♙</span><span><b>DUO</b><small>Hunt together · 2 players</small></span><i></i></button>
+          <button class="mode-card" data-mode="squad"><span class="mode-icon">♟</span><span><b>SQUAD</b><small>Four enter. One crew.</small></span><i></i></button>
+        </div>
+        <button id="play-button" class="play-button"><span>ENTER THE HUNT</span><b>→</b></button>
+        <div class="queue-note"><span class="pulse-dot"></span> <b>127</b> kindred searching for prey</div>
+      </div>
+      <div class="lobby-bottom"><span>PRAGUE, CZECH REPUBLIC</span><span>EST. 1348 · RECLAIMED 2026</span><span>BUILD 0.9.14</span></div>
+    </section>
+
+    <section id="hud" class="hud screen hidden">
+      <div class="match-top"><div class="match-title"><span class="live-dot"></span><b>PRAGUE AFTER DARK</b><small>SOLO · NIGHT 01</small></div><div class="match-stats"><div><small>REMAINING</small><b id="players-left">12</b></div><div class="stat-divider"></div><div><small>ELIMINATIONS</small><b id="kills">0</b></div><div class="stat-divider"></div><div><small>ZONE CLOSES</small><b id="zone-time">02:00</b></div></div><button class="leave-btn" id="leave-button">Ⅱ <span>MENU</span></button></div>
+      <div class="compass"><span>NW</span><i></i><b>N</b><i></i><span>NE</span></div>
+      <div class="zone-warning hidden" id="zone-warning">☠ THE BLOOD MOON IS CLOSING IN</div>
+      <div class="crosshair"><i></i><i></i></div>
+      <div class="bottom-left">
+        <div class="player-chip"><div class="avatar">V</div><div><b>THE OUTSIDER</b><small>BRUJAH · GENERATION 8</small></div><span class="mic">♩</span></div>
+        <div class="vitals"><div class="vital-row"><span>♥</span><div class="meter"><i id="health-fill" class="health-fill"></i></div><b id="health-value">100</b></div><div class="vital-row blood-row"><span>◈</span><div class="meter"><i id="blood-fill" class="blood-fill"></i></div><b id="blood-value">64</b></div><div class="vital-row armor-row"><span>⬡</span><div class="meter"><i id="armor-fill" class="armor-fill"></i></div><b id="armor-value">40</b></div></div>
+      </div>
+      <div class="weapon-card"><div class="weapon-icon">⌁</div><div class="weapon-info"><small>RARE · SEMI-AUTO</small><b>VOWBREAKER <span>01</span></b><small class="ammo"><strong id="ammo-value">12</strong> <i>/</i> 48</small></div><div class="weapon-key">1</div></div>
+      <div class="right-controls"><button class="ability-button" id="ability-button"><span>✦</span><small>SHOCKWAVE</small><kbd>Q</kbd><i class="cooldown" id="ability-cooldown"></i></button><button class="ability-button feed-button" id="feed-button"><span>♥</span><small>FEED</small><kbd>E</kbd></button></div>
+      <div id="toast" class="toast"></div>
+      <div class="mobile-controls" id="mobile-controls"><div class="joystick" id="joystick"><div class="stick" id="stick"></div></div><div class="touch-actions"><button class="touch-act" id="touch-jump">↑<small>JUMP</small></button><button class="touch-act ability-touch" id="touch-ability">✦<small>POWER</small></button><button class="touch-act fire-touch" id="touch-fire">◎<small>FIRE</small></button></div></div>
+      <div class="hint">WASD MOVE <span>·</span> MOUSE AIM <span>·</span> CLICK FIRE <span>·</span> SPACE JUMP <span>·</span> Q SHOCKWAVE</div>
+    </section>
+
+    <section id="result" class="result screen hidden"><div class="result-box"><span class="result-icon">☠</span><p class="eyebrow">THE CITY REMEMBERS</p><h2 id="result-title">THE NIGHT<br>IS <em>YOURS.</em></h2><p id="result-copy">You survived the hunt.</p><div class="result-stats"><div><small>ELIMINATIONS</small><b id="result-kills">0</b></div><div><small>SURVIVAL TIME</small><b id="result-time">00:00</b></div><div><small>BLOOD ECHOES</small><b id="result-xp">+240</b></div></div><button class="play-button" id="return-button"><span>RETURN TO ELYSIUM</span><b>→</b></button></div></section>
+
+    <section id="settings" class="settings-modal hidden"><div class="settings-panel"><button class="modal-close" id="settings-close">×</button><p class="eyebrow">PERSONALIZE YOUR NIGHT</p><h2>SETTINGS</h2><label>GRAPHICS QUALITY<select id="quality"><option value="high">HIGH · cinematic</option><option value="medium">MEDIUM · balanced</option><option value="low">LOW · performance</option></select></label><label>CAMERA SENSITIVITY<input id="sensitivity" type="range" min="1" max="10" value="5"></label><label class="toggle-line">SHOW TOUCH CONTROLS <input id="touch-toggle" type="checkbox" checked></label><p class="settings-note">Built for mobile. Drag anywhere on the right half to look around. All graphics are original, procedurally generated.</p></div></section>
+      <div id="loading" class="loading"><span class="loader-mark">V</span><p>THE NIGHT AWAKENS</p></div>
+  </div>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
